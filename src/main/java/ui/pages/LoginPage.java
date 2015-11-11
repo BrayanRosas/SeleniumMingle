@@ -26,6 +26,9 @@ public class LoginPage extends BasePageObject{
     @FindBy(name = "commit")
     WebElement loginBtn;
 
+    @FindBy(id="notice")
+    WebElement loginNotice;
+
     public LoginPage() {
         PageFactory.initElements(driver, this);
         waitUntilPageObjectIsLoaded();
@@ -36,13 +39,13 @@ public class LoginPage extends BasePageObject{
         wait.until(ExpectedConditions.visibilityOf(loginBtn));
     }
 
-    private LoginPage setUserNameInput(String userName) {
+    public LoginPage setUserNameInput(String userName) {
         userNameInput.clear();
         userNameInput.sendKeys(userName);
         return this;
     }
 
-    private LoginPage setPasswordInput(String password) {
+    public LoginPage setPasswordInput(String password) {
         passwordInput.clear();
         passwordInput.sendKeys(password);
         return this;
@@ -51,6 +54,11 @@ public class LoginPage extends BasePageObject{
     public LoginPage clickLoginBtnFailed() {
         loginBtn.click();
         return this;
+    }
+
+    public String getNotice(){
+        String notice =loginNotice.getText();
+        return notice;
     }
 
     private void login(String userName, String password) {

@@ -1,13 +1,11 @@
 package steps;
 
-import Framework.DriverManagement;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.testng.Assert;
+import ui.PageTransporter;
+import ui.pages.LoginPage;
 
 /**
  * Created with IntelliJ IDEA.
@@ -18,35 +16,25 @@ import org.testng.Assert;
  */
 public class Login {
 
-    private DriverManagement instance=DriverManagement.getInstance();
-    private WebDriver driver;
-
+    LoginPage page;
 
     @Given("^I navigate to Login page$")
     public void navigateLoginPage(){
-
-        driver=instance.getDriver();
-        driver.get("https://jala-foundation.mingle.thoughtworks.com/projects/your_first_project");
-        driver.manage().window().maximize();
+        page=PageTransporter.getInstance().navigateToLoginPage();
     }
 
     @When("^I sing in to page$")
     public void singIn()
     {
-          driver.findElement(By.id("user_login"))
-          .sendKeys("brayan_rosas");
-          driver.findElement(By.id("user_password"))
-           .sendKeys("Bgrf44360303bpm.");
-          driver.findElement(By.name("commit")).click();
-
+            page.setUserNameInput("brayan_rosas");
+            page.setPasswordInput("Bgrf44360303bpm.");
+            page.clickLoginBtnFailed();
     }
 
     @Then("^I should login to Mingle successfully$")
     public void Assert()
     {
-         WebElement elem= driver.findElement(By.xpath("//div[@id='title']/span/a")) ;
-         String expected=elem.getText();
-         System.out.println(expected);
-         Assert.assertEquals("Your First Project", expected);
+        String expected=page.getNotice() ;
+        Assert.assertEquals("Sign in successful",expected);
     }
 }

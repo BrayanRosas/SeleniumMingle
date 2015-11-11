@@ -18,7 +18,7 @@ public class PageTransporter {
 
     protected  PageTransporter(){
 
-       // initialize();
+        initialize();
     }
 
     public static  PageTransporter getInstance(){
@@ -43,6 +43,9 @@ public class PageTransporter {
         return new LoginPage();
     }
 
+    private void initialize() {
+//        log.info("Initialize the page transporter");
+    }
 
 }
 
