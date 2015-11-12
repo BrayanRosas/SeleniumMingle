@@ -33,9 +33,9 @@ public class DriverManagement
     private void initializeDriver()
     {
         driver = new FirefoxDriver();
-        driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
-        driver.manage().timeouts().pageLoadTimeout(30, TimeUnit.SECONDS);
-        wait = new WebDriverWait(driver, 30, 100);
+        driver.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
+        driver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
+        wait = new WebDriverWait(driver, 60, 100);
 
     }
 

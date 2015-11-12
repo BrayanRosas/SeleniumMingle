@@ -1,5 +1,4 @@
 package steps;
-
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
@@ -26,15 +25,18 @@ public class Login {
     @When("^I sing in to page$")
     public void singIn()
     {
+            page.waitUntilPageObjectIsLoaded();
             page.setUserNameInput("brayan_rosas");
             page.setPasswordInput("Bgrf44360303bpm.");
             page.clickLoginBtnFailed();
+
     }
 
     @Then("^I should login to Mingle successfully$")
-    public void Assert()
+    public void stepVerification()
     {
         String expected=page.getNotice() ;
-        Assert.assertEquals("Sign in successful",expected);
+        System.out.println(expected);
+        Assert.assertEquals("Sign in successful", expected);
     }
 }

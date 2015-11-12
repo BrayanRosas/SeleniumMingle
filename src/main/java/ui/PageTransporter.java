@@ -3,6 +3,7 @@ package ui;
 import Framework.DriverManagement;
 import org.openqa.selenium.WebDriver;
 import ui.pages.LoginPage;
+import ui.pages.NewProjectPage;
 
 /**
  * Created with IntelliJ IDEA.
@@ -14,6 +15,7 @@ import ui.pages.LoginPage;
 public class PageTransporter {
     private WebDriver driver= DriverManagement.getInstance().getDriver();
     private String loginURL="https://jala-foundation.mingle.thoughtworks.com";
+    private String newProjectURL="https://jala-foundation.mingle.thoughtworks.com/admin/projects/new";
     private  static PageTransporter instance;
 
     protected  PageTransporter(){
@@ -41,6 +43,11 @@ public class PageTransporter {
     public LoginPage navigateToLoginPage() {
         goToURL(loginURL);
         return new LoginPage();
+    }
+    //aqui cambiar
+    public NewProjectPage navigateToProjectPage(){
+       //goToURL(newProjectURL);
+        return new NewProjectPage();
     }
 
     private void initialize() {

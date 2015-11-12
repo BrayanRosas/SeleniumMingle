@@ -28,6 +28,12 @@ public class LoginPage extends BasePageObject{
 
     @FindBy(id="notice")
     WebElement loginNotice;
+    //create two new web elements for link new project and import project
+
+    @FindBy(xpath = "//a[contains(@href, '/admin/projects/new')]")
+    WebElement linkNewProject;
+    @FindBy(xpath = "//a[contains(@href, '/admin/projects/import')]")
+    WebElement linkImportProject;
 
     public LoginPage() {
         PageFactory.initElements(driver, this);
@@ -37,6 +43,10 @@ public class LoginPage extends BasePageObject{
     @Override
     public void waitUntilPageObjectIsLoaded() {
         wait.until(ExpectedConditions.visibilityOf(loginBtn));
+    }
+
+    public void waitUntilLinkNewIsShowed() {
+        wait.until(ExpectedConditions.visibilityOf(linkNewProject));
     }
 
     public LoginPage setUserNameInput(String userName) {
@@ -56,9 +66,20 @@ public class LoginPage extends BasePageObject{
         return this;
     }
 
+
     public String getNotice(){
         String notice =loginNotice.getText();
         return notice;
+    }
+
+    public void  clickLinkNewProject(){
+        linkNewProject.click();
+
+    }
+
+    public void  clickLinkImportProject(){
+        linkImportProject.click();
+
     }
 
     private void login(String userName, String password) {
