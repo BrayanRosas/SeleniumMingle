@@ -51,7 +51,38 @@ public class NewProjectPage extends BasePageObject {
     @FindBy(id="create_project")
     WebElement createProjectButton;
 
+    @FindBy(id="notice")
+    WebElement noticeNewProject;
 
+    //
+    @FindBy(id="project-list")
+    WebElement projectListLink;
+
+
+
+    //For verify the template create according with  Methodology
+    @FindBy(id="tab_story_map_link")
+    WebElement  storyMapLink;
+
+    @FindBy(id="tab_product_backlog_link")
+    WebElement backlogLink;
+
+    @FindBy(id="tab_release_planning_link")
+    WebElement releaseLink;
+
+    @FindBy(id="tab_estimation_link")
+    WebElement estimationLink;
+
+    @FindBy(id="tab_sprint_board_link")
+    WebElement sprintBoardLink;
+
+    @FindBy(id="tab_retrospectives_link")
+    WebElement retrospectiveLink;
+
+
+    //to delete project
+    @FindBy(id="tab_project_admin_link")
+    WebElement projectAdminLink;
 
 
     public NewProjectPage() {
@@ -64,12 +95,23 @@ public class NewProjectPage extends BasePageObject {
     public void waitUntilPageObjectIsLoaded() {
         wait.until(ExpectedConditions.visibilityOf(createProjectButton));
     }
-
+    //delete this method
     public NewProjectPage setProjectDetails (String projectName) {
         projectNameInput.clear();
         projectNameInput.sendKeys(projectName);
         templateProject.click();
         return this;
+    }
+
+    public void setProjectName(String projectName){
+        projectNameInput.clear();
+        projectNameInput.sendKeys(projectName);
+    }
+
+    public void chooseProjectTemplate(String template){
+
+        templateProject.click();
+
     }
 
     public NewProjectPage setAdvancedProjectDetails(String timezone,String formatDate,String precision,String imagePath){
@@ -90,6 +132,39 @@ public class NewProjectPage extends BasePageObject {
         createProjectButton.click();
         return createProjectButton;
     }
+
+    public String getNoticeNewProject(){
+        return noticeNewProject.getText();
+    }
+
+  public String getProjectName(){
+
+      return projectNameInput.getText();
+  }
+
+  public void clickProjectList(){
+      projectListLink.click();
+  }
+
+    /*
+  public boolean theProjectIsProjectList(){
+      if(projectListLink.)
+
+
+  }
+    */
+  public boolean existStoryMap(){
+        if( storyMapLink.isDisplayed())
+            return true;
+       return  false;
+
+  }
+
+  public void projectAdminClick(){
+      projectAdminLink.click();
+
+  }
+
 
 
 }

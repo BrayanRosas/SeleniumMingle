@@ -3,7 +3,10 @@ package ui;
 import Framework.DriverManagement;
 import org.openqa.selenium.WebDriver;
 import ui.pages.LoginPage;
+import ui.pages.MainPage;
 import ui.pages.NewProjectPage;
+import utils.JsonReader;
+
 
 /**
  * Created with IntelliJ IDEA.
@@ -13,9 +16,11 @@ import ui.pages.NewProjectPage;
  * To change this template use File | Settings | File Templates.
  */
 public class PageTransporter {
+    String urlsFile="C:\\Mingle\\src\\config\\urls.json";
+    JsonReader jsonReader=new JsonReader();
     private WebDriver driver= DriverManagement.getInstance().getDriver();
-    private String loginURL="https://jala-foundation.mingle.thoughtworks.com";
-    private String newProjectURL="https://jala-foundation.mingle.thoughtworks.com/admin/projects/new";
+    private String loginURL=jsonReader.readJsonFile("pages","homeUrlPage",urlsFile) ;
+    private String newProjectURL=jsonReader.readJsonFile("pages","newProjectUrlPage",urlsFile);
     private  static PageTransporter instance;
 
     protected  PageTransporter(){
@@ -41,13 +46,24 @@ public class PageTransporter {
     }
 
     public LoginPage navigateToLoginPage() {
+
+        //System.out.println(loginURL);
         goToURL(loginURL);
         return new LoginPage();
     }
-    //aqui cambiar
+
+    public void closeLoginPage(){
+
+        driver.close();
+    }
+
     public NewProjectPage navigateToProjectPage(){
-       //goToURL(newProjectURL);
         return new NewProjectPage();
+    }
+
+    public MainPage navigateToMainPage(){
+
+        return new MainPage();
     }
 
     private void initialize() {

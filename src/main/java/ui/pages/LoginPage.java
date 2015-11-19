@@ -23,17 +23,13 @@ public class LoginPage extends BasePageObject{
     @CacheLookup
     WebElement passwordInput;
 
-    @FindBy(name = "commit")
+    @FindBy(xpath= "//input[@name='commit']")
     WebElement loginBtn;
 
-    @FindBy(id="notice")
-    WebElement loginNotice;
-    //create two new web elements for link new project and import project
 
-    @FindBy(xpath = "//a[contains(@href, '/admin/projects/new')]")
-    WebElement linkNewProject;
-    @FindBy(xpath = "//a[contains(@href, '/admin/projects/import')]")
-    WebElement linkImportProject;
+    @FindBy(xpath = "//div[@id='error_explanation']/div")
+    WebElement errorExplanationText;
+
 
     public LoginPage() {
         PageFactory.initElements(driver, this);
@@ -45,51 +41,49 @@ public class LoginPage extends BasePageObject{
         wait.until(ExpectedConditions.visibilityOf(loginBtn));
     }
 
-    public void waitUntilLinkNewIsShowed() {
-        wait.until(ExpectedConditions.visibilityOf(linkNewProject));
-    }
 
-    public LoginPage setUserNameInput(String userName) {
+    public void setUserNameInput(String userName) {
         userNameInput.clear();
         userNameInput.sendKeys(userName);
-        return this;
+
     }
 
-    public LoginPage setPasswordInput(String password) {
+    public void setPasswordInput(String password) {
         passwordInput.clear();
         passwordInput.sendKeys(password);
-        return this;
+
     }
 
-    public LoginPage clickLoginBtnFailed() {
+    public void loginButtonClick() {
         loginBtn.click();
-        return this;
-    }
-
-
-    public String getNotice(){
-        String notice =loginNotice.getText();
-        return notice;
-    }
-
-    public void  clickLinkNewProject(){
-        linkNewProject.click();
 
     }
 
-    public void  clickLinkImportProject(){
-        linkImportProject.click();
+    public String getErrorLogin(){
+
+        return errorExplanationText.getText();
 
     }
 
-    private void login(String userName, String password) {
-        setUserNameInput(userName);
-        setPasswordInput(password);
+
+    public MainPage loginSuccess(String userName, String password) {
+         setUserNameInput(userName);
+         setPasswordInput(password);
+         loginButtonClick();
+        return new  MainPage();
+
+
     }
 
     public LoginPage loginFailed(String userName, String password) {
-        login(userName, password);
-        return clickLoginBtnFailed();
+        setUserNameInput(userName);
+        setPasswordInput(password);
+        loginButtonClick() ;
+        return this;
+
     }
+
+
+
 }
 
