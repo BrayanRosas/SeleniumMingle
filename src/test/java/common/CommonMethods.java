@@ -1,5 +1,7 @@
 package common;
 
+import Framework.DriverManagement;
+import org.openqa.selenium.WebDriver;
 import ui.PageTransporter;
 
 
@@ -26,4 +28,15 @@ public class CommonMethods {
       PageTransporter.getInstance().closeLoginPage();
 
     }
+
+    public static boolean theUserIsLogIn()
+    {
+        WebDriver driver = DriverManagement.getInstance().getDriver();
+        if(driver.getCurrentUrl().contains("login"))
+            return false;
+        else
+            return true;
+    }
+
+
 }
