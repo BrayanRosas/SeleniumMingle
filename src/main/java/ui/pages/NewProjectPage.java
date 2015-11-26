@@ -6,6 +6,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import ui.BasePageObject;
+import ui.BasePageProject;
 
 /**
  * Created with IntelliJ IDEA.
@@ -15,6 +16,8 @@ import ui.BasePageObject;
  * To change this template use File | Settings | File Templates.
  */
 public class NewProjectPage extends BasePageObject {
+
+    Header header=new Header();
 
     @FindBy(id ="project_name")
     @CacheLookup
@@ -85,6 +88,7 @@ public class NewProjectPage extends BasePageObject {
     WebElement projectAdminLink;
 
 
+
     public NewProjectPage() {
         PageFactory.initElements(driver, this);
         waitUntilPageObjectIsLoaded();
@@ -101,6 +105,11 @@ public class NewProjectPage extends BasePageObject {
         projectNameInput.sendKeys(projectName);
         templateProject.click();
         return this;
+    }
+
+    public void signOut(){
+
+         header.singOutPage();
     }
 
     public void setProjectName(String projectName){
@@ -128,9 +137,9 @@ public class NewProjectPage extends BasePageObject {
         return this;
     }
 
-    public WebElement clickCreateProject(){
+    public BasePageProject clickCreateProject(){
         createProjectButton.click();
-        return createProjectButton;
+        return new BasePageProject();
     }
 
     public String getNoticeNewProject(){

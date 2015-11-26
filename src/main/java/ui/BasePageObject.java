@@ -5,6 +5,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+
+
 /**
  * Created with IntelliJ IDEA.
  * User: BrayanRosas
@@ -15,6 +17,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 public abstract class BasePageObject {
     protected WebDriver driver;
     protected WebDriverWait wait;
+
+
 
     public BasePageObject() {
         this.driver = DriverManagement.getInstance().getDriver();

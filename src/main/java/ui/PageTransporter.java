@@ -47,7 +47,6 @@ public class PageTransporter {
 
     public LoginPage navigateToLoginPage() {
 
-        //System.out.println(loginURL);
         goToURL(loginURL);
         return new LoginPage();
     }
@@ -67,7 +66,7 @@ public class PageTransporter {
     }
 
     private void initialize() {
-//        log.info("Initialize the page transporter");
+//      log.info("Initialize the page transporter");
     }
 
 }

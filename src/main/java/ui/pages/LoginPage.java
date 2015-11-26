@@ -70,7 +70,7 @@ public class LoginPage extends BasePageObject{
          setUserNameInput(userName);
          setPasswordInput(password);
          loginButtonClick();
-        return new  MainPage();
+         return new  MainPage();
 
 
     }

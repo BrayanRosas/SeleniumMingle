@@ -1,4 +1,5 @@
 package steps;
+import common.CommonMethods;
 import cucumber.api.PendingException;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
@@ -18,48 +19,60 @@ import ui.pages.MainPage;
  */
 public class Login {
 
-    LoginPage page;
+    LoginPage loginPage=new LoginPage();
     MainPage mainPage;
 
-    @Given("^I navigate to Login page$")
-    public void navigateLoginPage(){
-        page=PageTransporter.getInstance().navigateToLoginPage();
-
-    }
 
    @When("^I sing in to page with invalid credentials \"([^\\\"]*)\" and \"([^\\\"]*)\"$")
    public void singinInvalidCredentials(String user,String password){
-
-
-       page.loginFailed(user,password);
-
-
+       loginPage.loginFailed(user,password);
    }
-
 
     @Then("^A error message should be displayed$")
     public void verifySingIn(){
 
-        String expected=page.getErrorLogin();
+        String expected=loginPage.getErrorLogin();
         String actual="Wrong sign-in name or password";
         Assert.assertEquals(expected,actual);
     }
 
     @When("^I sing in to page with \"([^\\\"]*)\" and \"([^\\\"]*)\"$")
     public void singinValidCredentials(String user,String password){
-
-        page.loginSuccess(user,password);
+        mainPage=loginPage.loginSuccess(user,password);
 
     }
+
+    @Given("^I sing in to main page with \"([^\\\"]*)\" and \"([^\\\"]*)\"$")
+    public void singInToMainPage(String user,String password){
+
+        if(CommonMethods.theUserIsLogIn()==false){
+
+          singinValidCredentials(user,password);
+
+        }
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     @Then("^I should login to Mingle successfully$")
     public void stepVerification()
     {
-       // page.waitUntilSingOutIsDisplayed();
-        mainPage=PageTransporter.getInstance().navigateToMainPage();
-       // mainPage.waitByTitlePage();
         String expected=mainPage.getNotice() ;
-        //System.out.println(expected);
         Assert.assertEquals("Sign in successful", expected);
 
     }
@@ -73,15 +86,7 @@ public class Login {
        */
     @Then("^I sing out of page$")
     public void singOutOfPage() {
+      //  mainPage.waitUntilPageObjectIsLoaded();
         mainPage.singOutPage();
-        page.waitUntilPageObjectIsLoaded();
-
-
-
     }
-
-
-
-
-
 }
