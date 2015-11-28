@@ -1,5 +1,6 @@
 package Framework;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import java.util.concurrent.TimeUnit;
@@ -34,9 +35,10 @@ public class DriverManagement
     {
         driver = new FirefoxDriver();
         driver.manage().window().maximize();
-        driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
-        driver.manage().timeouts().pageLoadTimeout(15, TimeUnit.SECONDS);
-        wait = new WebDriverWait(driver, 15, 100);
+        driver.manage().timeouts().implicitlyWait(35, TimeUnit.SECONDS);
+        driver.manage().timeouts().pageLoadTimeout(35, TimeUnit.SECONDS);
+        wait = new WebDriverWait(driver, 35, 100);
+
 
     }
 
@@ -63,6 +65,8 @@ public class DriverManagement
     public void quitDriver(){
         driver.quit();
     }
+
+
 
 
 }

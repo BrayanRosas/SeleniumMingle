@@ -71,10 +71,6 @@ public class PageTransporter {
 //      log.info("Initialize the page transporter");
     }
 
-    public Actions getActions(){
-
-        return actions;
-    }
 
 
 }

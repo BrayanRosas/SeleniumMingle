@@ -3,6 +3,7 @@ package common;
 import Framework.DriverManagement;
 import org.openqa.selenium.WebDriver;
 import ui.PageTransporter;
+import ui.pages.MainPage;
 
 
 /**
@@ -37,6 +38,8 @@ public class CommonMethods {
         else
             return true;
     }
+
+
 
 
 }

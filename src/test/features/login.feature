@@ -1,9 +1,6 @@
 @Login
 Feature: Login
 
-   Background:
-   Given I navigate to Login page
-
   Scenario Outline:Sing in with wrong credentials
 
    When I sing in to page with invalid credentials "<user>" and "<password>"
