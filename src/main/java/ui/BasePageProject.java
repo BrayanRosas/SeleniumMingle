@@ -1,13 +1,11 @@
 package ui;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import ui.pages.Header;
-import ui.pages.HeaderProject;
-import ui.pages.MainPage;
-import ui.pages.TopMenu;
+import ui.pages.*;
 
 /**
  * Created with IntelliJ IDEA.
@@ -19,7 +17,8 @@ import ui.pages.TopMenu;
 public class BasePageProject extends BasePageObject {
 
  Header headerProject=new HeaderProject();
- //TopMenu topMenu=new TopMenu();
+ BottomBar supportBar=new BottomBar();
+
     @FindBy(xpath="//input[@id='q']")
     WebElement searchInput;
 
@@ -48,19 +47,19 @@ public class BasePageProject extends BasePageObject {
 
     @FindBy(id="tab_project_admin_link")
     WebElement adminProjectLink;
+    /*
+
+     */
+    @FindBy(linkText="Team members")
+    WebElement userTeamLink;
 
     @FindBy(xpath="//a[contains(text(),'Delete')]")
     WebElement deleteProjectLink;
 
-    @FindBy(id="confirm_bottom")
-    WebElement deleteConfirmButton;
-
-    @FindBy(xpath="//input[@name='projectName']")
-    WebElement projectNameInput;
-
-    @FindBy(xpath="//input[@value='I understand the consequences, delete this project']")
-    WebElement submitDeleteButton;
-
+    MainPage main;
+    DeleteProjectPage deletePage;
+    boolean projectFounded=false;
+    boolean isProjectPage;
 
     public BasePageProject() {
         PageFactory.initElements(driver, this);
@@ -74,7 +73,12 @@ public class BasePageProject extends BasePageObject {
 
     public void signOut(){
 
-       headerProject.singOutPage();
+        headerProject.singOutPage();
+
+    }
+
+    public void inviteUser(String email){
+        supportBar.inviteUser(email) ;
 
     }
 
@@ -84,16 +88,46 @@ public class BasePageProject extends BasePageObject {
 
     }
 
-    public MainPage deleteProject(String projectName){
-        adminProjectLink.click();
-        wait.until(ExpectedConditions.visibilityOf(deleteProjectLink));
-        deleteProjectLink.click();
-        deleteConfirmButton.click();
-        projectNameInput.sendKeys(projectName);
-        submitDeleteButton.click();
-        return new MainPage();
+    public void GoToDeleteProject(String projectName){
+            adminProjectLink.click();
+            wait.until(ExpectedConditions.visibilityOf(deleteProjectLink));
+            deleteProjectLink.click();
+            deletePage=new DeleteProjectPage();
+            deletePage.confirmDeleteProject(projectName);
+    }
+
+    public boolean verifyIfExistProjectList(String projectName){
+
+            projectFounded=main.verifyIfExistProjectList(projectName);
+        return projectFounded;
+    }
+
+    public boolean IsInProjectPage(String projectName){
+
+        String currentUrl=PageTransporter.getInstance().getCurrentURL();
+            if(currentUrl.contains(projectName))
+                isProjectPage=true;
+            isProjectPage=false;
+        return isProjectPage;
+    }
+
+
+    public BottomBar getSupportBar(){
+
+        return  supportBar;
 
     }
+
+    public boolean isUserInTeamList(String email){
+
+        adminProjectLink.click();
+        wait.until(ExpectedConditions.visibilityOf(userTeamLink));
+        userTeamLink.click();
+        return isPresent(By.xpath("//table[@id='users']//tbody//td[@class='email'][text()='" + email + "']"));
+
+
+    }
+
 
 
 

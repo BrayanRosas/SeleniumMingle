@@ -79,7 +79,7 @@ public class HeaderProject extends Header {
         //maybe should return at the same page?
     }
 
-    public Boolean ExistMessageListChat(String message){
+    public boolean ExistMessageListChat(String message){
 
         List<WebElement> elements=getSpecificProjectChatList.findElements(By.tagName("li"));
         for(WebElement elem:elements){

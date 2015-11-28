@@ -16,9 +16,9 @@ import ui.BasePageObject;
 public class TopMenu extends BasePageObject {
 
     @FindBy(xpath = "//div[@id='header-pills']/ul/li/a")
-    WebElement programsLink;   // go to list of project
+    WebElement programsLink;
 
-    @FindBy(xpath = "//div[@id='header-pills']/ul/li[2]")
+    @FindBy(xpath = "(//a[contains(@href, '/')])[5]")
     WebElement projectsLink;   // go to list of project
 
     public TopMenu(){
@@ -36,8 +36,14 @@ public class TopMenu extends BasePageObject {
     }
 
     public void  projectsLinkClick(){
+        String classValue=projectsLink.getAttribute("class");
+        if(classValue=="header-menu-pill selected")  {
 
-        projectsLink.click();
+        }
+        else{
+           projectsLink.click();
+
+        }
     }
 
 }

@@ -1,10 +1,14 @@
 package ui.pages;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import ui.BasePageObject;
+import ui.BasePageProject;
+import ui.PageTransporter;
+
 
 /**
  * Created with IntelliJ IDEA.
@@ -15,7 +19,7 @@ import ui.BasePageObject;
  */
    public class MainPage extends BasePageObject {
 
-    //TopMenu topMenu=new TopMenu();
+    TopMenu topMenu=new TopMenu();
     //Header header;
     Header header=new Header();
 
@@ -29,6 +33,14 @@ import ui.BasePageObject;
 
     @FindBy(xpath = "//a[contains(@href, '/admin/projects/import')]")
     WebElement linkImportProject;
+
+    @FindBy(xpath = "//div[@id='main']/div")
+    WebElement listOfProjects;
+
+    boolean elemFounded=false;
+
+    DeleteProjectPage deleteProjectPage;
+
 
    //WebElement logOutButton=header.getSingOut();
 
@@ -70,7 +82,10 @@ import ui.BasePageObject;
         wait.until(ExpectedConditions.visibilityOf(header.logOutButton));
     }
 
+    public void waitUntilListProjectIsShowed() {
 
+        wait.until(ExpectedConditions.visibilityOf(listOfProjects));
+    }
 
     public String getNotice(){
         String notice =loginNotice.getText();
@@ -89,31 +104,56 @@ import ui.BasePageObject;
     public void singOutPage(){
 
            header.singOutPage();
-            //return new LoginPage();
-
-
-      //  System.out.println("The element sing  out does not enable");
-        //return new MainPage();
     }
-      /*
-    public void waitByTitlePage() {
-        wait.until(ExpectedConditions.visibilityOf(titlePage));
+
+    public void GoToDeleteProject(String projectName){
+
+       if(PageTransporter.getInstance().getCurrentURL().contains("projects")){
+           header.mingleLogoClick();
+           topMenu.projectsLinkClick();
+
+       }
+        waitUntilListProjectIsShowed();
+        listOfProjects.findElement(By.xpath("//a[contains(@href, '/delete/"+projectName.toLowerCase()+"')]")).click();
+        deleteProjectPage=new DeleteProjectPage();
+        deleteProjectPage.confirmDeleteProject(projectName);
 
     }
-        */
 
-    /*
-    public void  projectsLinkClick(){
-        String classValue=topMenu.projectsLink.getAttribute("class");
-        if(classValue=="header-menu-pill selected")  {
-            clickLinkNewProject();
+    public Boolean verifyIfExistProjectList(String projectName){
+
+        return isPresent(By.xpath("//div[@id='main']/div//a[contains(@href, '/projects/"+projectName.toLowerCase()+"')]"));
+
+
+    }
+
+
+   /*
+    public MainPage deleteProject(String projectName){
+
+        String currentUrl= PageTransporter.getInstance().getCurrentURL();
+        if(currentUrl.contains(projectName)){
+            adminProjectLink.click();
+            wait.until(ExpectedConditions.visibilityOf(deleteProjectLink));
+            deleteProjectLink.click();
+            deleteConfirmButton.click();
+            projectNameInput.sendKeys(projectName);
+            submitDeleteButton.click();
+
         }
         else{
-            topMenu.projectsLink.click();
-            clickLinkNewProject();
+
+            // main=headerProject.mingleLogoClick();
+            findProjectAndClickOnDelete(projectName);
+            deleteConfirmButton.click();
+            projectNameInput.sendKeys(projectName);
+            submitDeleteButton.click();
 
         }
 
+        return new MainPage();
 
-    } */
+    }
+    */
+
 }

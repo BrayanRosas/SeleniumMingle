@@ -2,6 +2,7 @@ package ui;
 
 import Framework.DriverManagement;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.interactions.Actions;
 import ui.pages.LoginPage;
 import ui.pages.MainPage;
 import ui.pages.NewProjectPage;
@@ -22,6 +23,7 @@ public class PageTransporter {
     private String loginURL=jsonReader.readJsonFile("pages","homeUrlPage",urlsFile) ;
     private String newProjectURL=jsonReader.readJsonFile("pages","newProjectUrlPage",urlsFile);
     private  static PageTransporter instance;
+    Actions actions = new Actions(driver);
 
     protected  PageTransporter(){
 
@@ -68,6 +70,12 @@ public class PageTransporter {
     private void initialize() {
 //      log.info("Initialize the page transporter");
     }
+
+    public Actions getActions(){
+
+        return actions;
+    }
+
 
 }
 

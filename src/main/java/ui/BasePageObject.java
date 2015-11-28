@@ -1,12 +1,11 @@
 package ui;
 
 import Framework.DriverManagement;
+import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
-
-
 /**
  * Created with IntelliJ IDEA.
  * User: BrayanRosas
@@ -18,8 +17,6 @@ public abstract class BasePageObject {
     protected WebDriver driver;
     protected WebDriverWait wait;
 
-
-
     public BasePageObject() {
         this.driver = DriverManagement.getInstance().getDriver();
         this.wait = DriverManagement.getInstance().getWait();
@@ -27,6 +24,17 @@ public abstract class BasePageObject {
     }
 
     public abstract void waitUntilPageObjectIsLoaded();
+
+    public boolean isPresent(By by)
+    {
+        try {
+            driver.findElement(by);
+            return true;
+        }catch (NoSuchElementException e)
+        {
+            return false;
+        }
+    }
 
 }
 

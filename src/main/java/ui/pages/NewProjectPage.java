@@ -1,5 +1,6 @@
 package ui.pages;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.CacheLookup;
 import org.openqa.selenium.support.FindBy;
@@ -7,6 +8,7 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import ui.BasePageObject;
 import ui.BasePageProject;
+import ui.PageTransporter;
 
 /**
  * Created with IntelliJ IDEA.
@@ -18,6 +20,7 @@ import ui.BasePageProject;
 public class NewProjectPage extends BasePageObject {
 
     Header header=new Header();
+    boolean errorContains=false;
 
     @FindBy(id ="project_name")
     @CacheLookup
@@ -26,6 +29,9 @@ public class NewProjectPage extends BasePageObject {
     @FindBy(xpath ="//img[@alt='Scrum']")
     @CacheLookup
     WebElement templateProject;
+
+    @FindBy(xpath="//div[@id='template-list']")
+    WebElement templateProjectList;
 
     @FindBy(id ="options-toggle-link")
     WebElement advanceProjectList;
@@ -87,6 +93,10 @@ public class NewProjectPage extends BasePageObject {
     @FindBy(id="tab_project_admin_link")
     WebElement projectAdminLink;
 
+    @FindBy(xpath="//div[@id='error']")
+    WebElement errorDiv;
+
+
 
 
     public NewProjectPage() {
@@ -119,7 +129,9 @@ public class NewProjectPage extends BasePageObject {
 
     public void chooseProjectTemplate(String template){
 
-        templateProject.click();
+
+        templateProjectList.findElement(By.xpath("//img[@alt='"+template+"']")).click();
+
 
     }
 
@@ -137,9 +149,17 @@ public class NewProjectPage extends BasePageObject {
         return this;
     }
 
-    public BasePageProject clickCreateProject(){
+    public BasePageProject createProject(){
+
         createProjectButton.click();
+
         return new BasePageProject();
+    }
+
+    public NewProjectPage createSameProject(){
+        createProjectButton.click();
+       return new NewProjectPage();
+
     }
 
     public String getNoticeNewProject(){
@@ -155,13 +175,6 @@ public class NewProjectPage extends BasePageObject {
       projectListLink.click();
   }
 
-    /*
-  public boolean theProjectIsProjectList(){
-      if(projectListLink.)
-
-
-  }
-    */
   public boolean existStoryMap(){
         if( storyMapLink.isDisplayed())
             return true;
@@ -173,6 +186,27 @@ public class NewProjectPage extends BasePageObject {
       projectAdminLink.click();
 
   }
+
+    public boolean textErrorIsPresent(String textError){
+
+        String errorText=errorDiv.getText();
+        System.out.println("**************************"+errorText);
+        System.out.println(".........................."+textError);
+            if(errorText.contains(textError))
+            {
+                System.out.println("+++++Is the same error+++++");
+                errorContains=true;
+            }
+        System.out.println("No es the same error!!!!");
+
+        return errorContains;
+
+
+    }
+
+
+
+
 
 
 

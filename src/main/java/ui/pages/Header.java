@@ -34,6 +34,8 @@ public class Header extends BasePageObject {
     }
 
     public MainPage mingleLogoClick(){
+
+
             mingleLogo.click();
             return new MainPage();
     }
