@@ -5,6 +5,7 @@ import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import org.testng.Assert;
+import ui.BasePageProject;
 import ui.PageTransporter;
 import ui.pages.LoginPage;
 import ui.pages.MainPage;
@@ -21,35 +22,46 @@ import java.io.FileReader;
  */
 public class Project {
 
-    LoginPage page;
+    LoginPage loginPage;
     MainPage mainPage;
     NewProjectPage newProjectPage;
+    BasePageProject baseProject;
 
-    String projectName="Test";
-    String projectTemplate="Scrum";
+
     String timezone="label=(GMT-04:00) La Paz";
     String dateFormat="label=dd/mm/yyyy";
     String precision="3";
     String imagePath="C:\\Users\\BrayanRosas\\Pictures\\ProjectImages\\TestImage.jpeg";
 
-
+      /*
     @Given("^I navigate at Login Page$")
     public void navigateLoginPage(){
-        page= PageTransporter.getInstance().navigateToLoginPage();
+        loginPage= PageTransporter.getInstance().navigateToLoginPage();
     }
+       */
+    /*
+    @When("^I sing in to main page with \"([^\\\"]*)\" and \"([^\\\"]*)\"$")
+    public void singinValidCredentials(String user,String password){
 
+        loginPage=new LoginPage();
+        mainPage=loginPage.loginSuccess(user,password);
+
+    }
+      */
+
+       /*
     @And("^I sing in successfully at Login Page$")
     public void singInLoginPage(){
        // page.waitUntilPageObjectIsLoaded();
-        page.setUserNameInput("brayan_rosas");
-        page.setPasswordInput("Bgrf44360303bpm.");
-        page.loginButtonClick();
+        loginPage.setUserNameInput("brayan_rosas");
+        loginPage.setPasswordInput("Bgrf44360303bpm.");
+        loginPage.loginButtonClick();
     }
-
+     */
     @And("^I navigate to New Project Page$")
     public void navigateProjectPage(){
         mainPage=PageTransporter.getInstance().navigateToMainPage();
-         mainPage.waitUntilLinkNewIsShowed();
+        // mainPage.waitUntilLinkNewIsShowed();
          mainPage.clickLinkNewProject();
     }
 
@@ -61,101 +73,129 @@ public class Project {
 
     }
 
-     @And("^I choose a methodology \"([^\\\"]*)\"$")
+     @And("^I choose a project type \"([^\\\"]*)\"$")
      public void setProjectDetails(String projectTemplate){
          newProjectPage.chooseProjectTemplate(projectTemplate);
      }
 
-    @And("^I set advanced project fields$")
-    public void setProjectAdvancedFields(){
+    @And("^I set advanced project fields: \"([^\\\"]*)\", \"([^\\\"]*)\",\"([^\\\"]*)\",\"([^\\\"]*)\"$")
+    public void setProjectAdvancedFields(String timezone,String dateFormat,String precision,String imagePath){
          //Refactor this for working  from config file
         newProjectPage.setAdvancedProjectDetails(timezone,dateFormat,precision,imagePath);
     }
 
-    @And("^I create the project$")
+    @And("^I save the project$")
     public void createProject(){
-        newProjectPage.clickCreateProject();
+        baseProject=newProjectPage.createProject();
     }
 
 
-    @Then("^I should be in a project \"([^\\\"]*)\" page Overview$")
+    @Then("^a new project page with the project name \"([^\\\"]*)\" should be created$")
     public void verifyProjectPage(String projectName)
     {
         String currentUrl=PageTransporter.getInstance().getCurrentURL();
-        System.out.println(currentUrl);
-        String expected="https://jala-foundation.mingle.thoughtworks.com/projects/"+projectName+"/overview" ;
+        System.out.println("---------"+currentUrl);
+        String expected="https://jala-foundation.mingle.thoughtworks.com/projects/"+projectName.toLowerCase()+"/overview" ;
         Assert.assertEquals(currentUrl, expected);
     }
 
 
-
-
-    @And("^the  Project \"([^\\\"]*)\\\" should be successfully created.$")
-    public void verifySuccessfullyProjectCreated(String projectName){
+    @And("^the project name \"([^\\\"]*)\" is in the message \"([^\\\"]*)\"$")
+    public void verifySuccessfullyProjectCreated(String projectName,String message){
 
         String actual=newProjectPage.getNoticeNewProject();
-        String expected="Project "+projectName+" successfully created.";
+        String expected="Project "+projectName+" "+message;
         System.out.println(expected);
         Assert.assertEquals(actual,expected);
 
     }
 
-
-
-    @And("^I have a Card Wall according with the \"([^\\\"]*)\"$")
-    public void verifyProjectTemplate(String typeCard){
-
-        //Assert.assertEquals(true,newProjectPage.existStoryMap());
-
-    }
-
-    @And("^I have the \"([^\\\"]*)\" on the  project list$")
-    public void projectIsProjectList(String projectName){
-        newProjectPage.clickProjectList();
+    @And("^I have the \"([^\\\"]*)\\\" on the  project list$")
+    public void verifyProjectTemplate(String projectName){
+        mainPage=baseProject.clickListProject();
+        boolean actual=mainPage.verifyIfExistProjectList(projectName);
+        Assert.assertEquals(actual,true);
 
     }
 
-    /*
-    Delete project methods
-     */
-    @Given ("^I have a new project with \"([^\\\"]*)\" created$")
-    public void createBasicProject(String projectName){
-      mainPage.waitUntilLinkNewIsShowed();
-      mainPage.clickLinkNewProject();
-      newProjectPage.setProjectName(projectName);
-      newProjectPage.clickCreateProject();
 
-     }
+    @And("^delete the \"([^\\\"]*)\" project from the main page$")
+    public void deleteProject(String projectName){
+    mainPage.GoToDeleteProject(projectName);
 
-    @When("^I go to project admin$")
-    public void goToProjectList(){
-      newProjectPage.projectAdminClick();
     }
 
-    @And("^I select the project with \"([^\\\"]*)\"$")
-    public void selectProjectToDeleted(String projectName){
+    @Given ("^I create the project with project name \"([^\\\"]*)\" and project type \"([^\\\"]*)\"$")
+    public void createProjectSimple(String projectName,String projectType ){
 
+        mainPage=PageTransporter.getInstance().navigateToMainPage();
+        mainPage.clickLinkNewProject();
+        newProjectPage=PageTransporter.getInstance().navigateToProjectPage();
+        newProjectPage.setProjectName(projectName);
+        newProjectPage.chooseProjectTemplate(projectType);
+        baseProject=newProjectPage.createProject();
+
+    }
+
+    @And ("^I go at my list projects$")
+    public void goToMainPageFromProjectPage(){
+
+       mainPage= baseProject.clickListProject();
 
 
     }
 
-    @And("^I click on the delete$")
-    public void ClickDeleteProject(String projectName){
 
+    @When ("^I create the project with same project name \"([^\\\"]*)\" and type project \"([^\\\"]*)\"$")
+    public void createSameProject(String projectName,String projectType ){
+
+        mainPage.clickLinkNewProject();
+        newProjectPage=PageTransporter.getInstance().navigateToProjectPage();
+        newProjectPage.setProjectName(projectName);
+        newProjectPage.chooseProjectTemplate(projectType);
+        newProjectPage=newProjectPage.createSameProject();
+
+    }
+      /*
+    @Then("^I am not in the Page project \"([^\\\"]*)\"$")
+     public void  iAmNotPageProject(String projectName){
+
+       boolean expected=false;
+       Assert.assertEquals( baseProject.IsInProjectPage(projectName),expected);
+    }
+       */
+    @And("^An Error message \"([^\\\"]*)\" should be displayed$")
+     public void  errorCreateProjectIsShowed(String textError){
+
+        boolean expected=true;
+
+        Assert.assertEquals( newProjectPage.textErrorIsPresent(textError),expected);
+    }
+
+    @And("^invite a new user to the current project with the email \"([^\\\"]*)\"$")
+    public void  inviteUser(String email){
+
+      baseProject.inviteUser(email);
+
+      }
+
+    @Then("^the user \"([^\\\"]*)\" should be in the Team List of the project \"([^\\\"]*)\"$")
+        public void isUserInTeamList(String email ,String projectName){
+
+       baseProject.isUserInTeamList(email);
 
 
     }
-    @And("^I type the \"([^\\\"]*)\" to confirm the deleting of project$")
-    public void typeProjectNameToConfirm(String projectName){
 
 
+    @And ("^I sing out of page from specific project$")
+    public void singOut(){
 
-    }
-    @Then("^The project with the name \"([^\\\"]*)\" has been deleted successfully$")
-    public void VerifyDeleteSuccessfully(String projectName){
-
+       mainPage.singOutPage();
 
     }
+
+
 
 
 }
