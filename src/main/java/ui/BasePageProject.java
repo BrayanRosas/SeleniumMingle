@@ -18,6 +18,7 @@ public class BasePageProject extends BasePageObject {
 
  Header headerProject=new HeaderProject();
  BottomBar supportBar=new BottomBar();
+ boolean isCardList;
 
     @FindBy(xpath="//input[@id='q']")
     WebElement searchInput;
@@ -207,7 +208,18 @@ public class BasePageProject extends BasePageObject {
        return new BottomBar();
    }
 
+    public boolean isCardInListCard(String cardName){
 
+        allProjectLink.click();
+        if(isPresent(By.xpath("//table[@id='cards']/tbody/tr/td[@class='card-name']/a[contains(text(),'"+cardName+"')]"))){
+            isCardList=true;
+        }
+        else{
+            isCardList=false;
+        }
+        return isCardList;
+
+    }
 
 
 
