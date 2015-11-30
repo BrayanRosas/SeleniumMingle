@@ -19,12 +19,10 @@ import ui.BasePageObject;
 public class Tab extends BasePageObject {
     String name;
 
+
     //Web element to add and search Values ,Value is a col that contains cards
     @FindBy(css = "i.fa.fa-plus-circle")
     WebElement plusValueSelector;
-
-
-
 
      //filter of Value
     @FindBy(xpath = "xpath=(//input[@name='filter'])[2]")
@@ -56,6 +54,7 @@ public class Tab extends BasePageObject {
     WebElement tabNotice;
 
 
+    boolean cardExist;
 
 
 
@@ -88,29 +87,65 @@ public class Tab extends BasePageObject {
           }
 
          System.out.println("The element is already visible");
-
-
     }
 
     public void createNewCardInTo(String nameValue){
-
-
         Actions action = new Actions(driver);
         WebElement we =driver.findElement(By.xpath("//table[@id='swimming-pool']/tbody/tr/td[@lane_value='"+nameValue+"']"));
         action.moveToElement(we).build().perform();
         addCardLink.click();
 
-
-
     }
 
 
-    public void isCardCreated(String message){
-        System.out.println(tabNotice.getText());
-        System.out.println(message);
+    public boolean isCardCreated(String message){
+
+        if(tabNotice.getText().contains(message)){
+            cardExist=true;
+
+        }
+        else{
+
+            cardExist=false;
+        }
+
         tabNotice.getText();
 
+        return cardExist;
+    }
+
+    public boolean isCardInValue(String valueName,String cardName){
+
+
+         if(isPresent(By.xpath("//table[@id='swimming-pool']/tbody/tr/td[@lane_value='"+valueName+"']/div/div/div[@class='card-name'][contains(text(),'"+cardName+"')]")))  {
+             cardExist=true;
+
+         }
+         else {
+             cardExist=false;
+         }
+
+
+        return  cardExist;
+    }
+
+    public void moveCardTo(String nameCard,String valueOrigin,String valueDestination ) {
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//table[@id='swimming-pool']/tbody/tr/td[@lane_value='"+valueOrigin+"']/div/div/div[@class='card-name'][contains(text(),'"+nameCard+"')]/parent::div")));
+
+        WebElement origin=driver.findElement(By.xpath("//table[@id='swimming-pool']/tbody/tr/td[@lane_value='"+valueOrigin+"']/div/div/div[@class='card-name'][contains(text(),'"+nameCard+"')]/parent::div")) ;
+        WebElement destination=driver.findElement(By.xpath("//table[@id='swimming-pool']/tbody/tr/td[@lane_value='"+valueDestination+"']"));
+        Actions act=new Actions(driver);
+        act.moveToElement(origin).clickAndHold(origin).moveToElement(destination).release().build().perform();
 
     }
+
+    public void changeCardStatus(String cardName,String status,String valueName){
+
+        WebElement card=driver.findElement(By.xpath("//table[@id='swimming-pool']/tbody/tr/td[@lane_value='"+valueName+"']/div/div/div[@class='card-name'][contains(text(),'"+cardName+"')]/parent::div")) ;
+         card.click();
+
+
+    }
+
 
 }

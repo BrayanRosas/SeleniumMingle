@@ -263,14 +263,39 @@ public class Project {
     }
 
     @And ("^An message \"([^\\\"]*)\" is displayed$")
-    public void createNewCardInto(String message) {
+    public void isCardCreated(String message) {
 
+        Assert.assertEquals(tabPage.isCardCreated(message),true);
 
-        tabPage.isCardCreated(message);
+    }
+
+    @And ("^the card \"([^\\\"]*)\" is inside the Value \"([^\\\"]*)\"$")
+    public void isCardInValue(String cardName,String valueName) {
+
+        Assert.assertEquals(tabPage.isCardInValue(valueName,cardName),true);
+    }
+
+    @And ("^the card \"([^\\\"]*)\" is in the card list of the project$")
+    public void isCardInCardList(String cardName) {
+
+        Assert.assertEquals(baseProject.isCardInListCard(cardName),true);
 
     }
 
 
+    @When ("^the card \"([^\\\"]*)\" is moved from \"([^\\\"]*)\" to \"([^\\\"]*)\" Value in the Tab \"([^\\\"]*)\"$")
+    public void moveCardToDragAndDrop(String cardName,String origin,String destination,String tabName) {
+           baseProject.searchElementTopMenuAndClick(tabName);
+           tabPage=new Tab();
+           tabPage.moveCardTo(cardName,origin,destination);
+
+    }
+
+    @When ("^I change the status of card \"([^\\\"]*)\" to \"([^\\\"]*)\" in the value \"([^\\\"]*)\"$")
+    public void changeCardStatus(String cardName,String status,String value) {
+
+
+    }
 
 
 
