@@ -33,10 +33,19 @@ public class CommonMethods {
     public static boolean theUserIsLogIn()
     {
         WebDriver driver = DriverManagement.getInstance().getDriver();
-        if(driver.getCurrentUrl().contains("login"))
+        if(driver.getCurrentUrl().contains("login"))  {
+
+            System.out.println("****** The user is not logged");
             return false;
-        else
+
+        }
+
+        else {
+
+            System.out.println("+++++++++++++ The user is logged");
             return true;
+        }
+
     }
 
 

@@ -10,6 +10,7 @@ import ui.PageTransporter;
 import ui.pages.LoginPage;
 import ui.pages.MainPage;
 import ui.pages.NewProjectPage;
+import ui.pages.Tab;
 
 import java.io.FileReader;
 
@@ -26,6 +27,7 @@ public class Project {
     MainPage mainPage;
     NewProjectPage newProjectPage;
     BasePageProject baseProject;
+    Tab tabPage;
 
 
     String timezone="label=(GMT-04:00) La Paz";
@@ -172,7 +174,7 @@ public class Project {
         Assert.assertEquals( newProjectPage.textErrorIsPresent(textError),expected);
     }
 
-    @And("^invite a new user to the current project with the email \"([^\\\"]*)\"$")
+    @And("^I invite a new user to the current project with the email \"([^\\\"]*)\"$")
     public void  inviteUser(String email){
 
       baseProject.inviteUser(email);
@@ -184,16 +186,94 @@ public class Project {
 
        baseProject.isUserInTeamList(email);
 
+    }
+
+    @And ("^I change the member roll \"([^\\\"]*)\"$")
+        public void changeRollMember(String roll){
+
+               baseProject.changeRollMemberTo();
+
+    }
+
+    @And ("^I edit the Tab name \"([^\\\"]*)\" to \"([^\\\"]*)\"$")
+     public void editTabTo(String actualName,String newName) {
+
+         baseProject.searchElementTopMenuAndClick(actualName);
+         tabPage=baseProject.changeTabNameTo(actualName,newName);
+
+    }
+
+    @And ("^I create a new Value \"([^\\\"]*)\" on tab \"([^\\\"]*)\"$")
+    public void createNewValue(String newValueName,String tabName) {
+
+
+        tabPage.createNewValue(newValueName);
+
+
+    }
+
+    @And ("^I create a new Value \"([^\\\"]*)\" on default Agile tab \"([^\\\"]*)\"$")
+    public void createNewValueInto(String newValueName,String tabName) {
+
+        baseProject.searchElementTopMenuAndClick(tabName);
+        tabPage=new Tab();
+        tabPage.createNewValue(newValueName);
+
+
+    }
+
+    @And ("^I create the card \"([^\\\"]*)\"  inside the value \"([^\\\"]*)\" with estimation \"([^\\\"]*)\" and owner \"([^\\\"]*)\" and cardType \"([^\\\"]*)\"$")
+    public void createNewCardInto(String cardName,String valueName,String estimation,String owner,String cardType) {
+
+
+        baseProject.getBottomBar().createNewCard(cardName,valueName,estimation,owner,cardType);
 
     }
 
 
-    @And ("^I sing out of page from specific project$")
-    public void singOut(){
 
-       mainPage.singOutPage();
+
+
+
+    @And ("^I create a template of the project \"([^\\\"]*)\"$")
+    public void createTemplateOf(String projectName) {
+
+
+       mainPage=baseProject.clickListProject();
+       mainPage.createTemplateThisProject(projectName);
+
 
     }
+
+
+    @And ("^the message \"([^\\\"]*)\" should be showed$")
+    public void isTemplateCreated(String message) {
+
+        Assert.assertEquals( mainPage.isTemplateCreated(message),true);
+
+
+    }
+
+    @Then ("^The template of project \"([^\\\"]*)\" is the template project list$")
+    public void isTemplateInList(String projectName) {
+
+        mainPage.goToTemplateLIst();
+        Assert.assertEquals( mainPage.isTemplateInTheList(projectName),true);
+
+    }
+
+    @And ("^An message \"([^\\\"]*)\" is displayed$")
+    public void createNewCardInto(String message) {
+
+
+        tabPage.isCardCreated(message);
+
+    }
+
+
+
+
+
 
 
 

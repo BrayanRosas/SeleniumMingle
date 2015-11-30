@@ -19,12 +19,13 @@ import ui.pages.MainPage;
  */
 public class Login {
 
-    LoginPage loginPage=new LoginPage();
+    LoginPage loginPage;//=new LoginPage();
     MainPage mainPage;
 
 
    @When("^I sing in to page with invalid credentials \"([^\\\"]*)\" and \"([^\\\"]*)\"$")
    public void singinInvalidCredentials(String user,String password){
+       loginPage=new LoginPage();
        loginPage.loginFailed(user,password);
    }
 
@@ -36,21 +37,26 @@ public class Login {
         Assert.assertEquals(expected,actual);
     }
 
-    @When("^I sing in to page with \"([^\\\"]*)\" and \"([^\\\"]*)\"$")
-    public void singinValidCredentials(String user,String password){
-        mainPage=loginPage.loginSuccess(user,password);
-
-    }
-
-    @Given("^I sing in to main page with \"([^\\\"]*)\" and \"([^\\\"]*)\"$")
+    @When("^I sing in to page with the user \"([^\\\"]*)\" and password \"([^\\\"]*)\"$")
     public void singInToMainPage(String user,String password){
 
-        if(CommonMethods.theUserIsLogIn()==false){
+        if(!CommonMethods.theUserIsLogIn()){
 
-          singinValidCredentials(user,password);
+
+            singinValidCredentials(user,password);
+
+        }
+        else{
+           PageTransporter.getInstance().navigateToMainPage();
 
         }
 
+    }
+
+    @Given("^I sing in to main page with valid credentials \"([^\\\"]*)\" and \"([^\\\"]*)\"$")
+    public void singinValidCredentials(String user,String password){
+        loginPage=new LoginPage();
+        mainPage=loginPage.loginSuccess(user,password);
     }
 
 

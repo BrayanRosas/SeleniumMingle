@@ -12,9 +12,8 @@ Feature: Login
 
   Scenario Outline: Sing in with user name or user email and password
 
-   When I sing in to page with "<user>" and "<password>"
+   When I sing in to main page with valid credentials "<user>" and "<password>"
    Then I should login to Mingle successfully
-   #When Go to new project
    And I sing out of page
    Examples:
     | user                            | password        |
