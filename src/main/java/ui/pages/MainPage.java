@@ -26,6 +26,11 @@ import ui.PageTransporter;
 
     @FindBy(id="notice")
     WebElement loginNotice;
+
+    @FindBy(xpath="//div[@id='flash']/div/div[@id='notice']")
+    WebElement templateNotice;
+
+
     //create two new web elements for link new project and import project
 
     @FindBy(xpath = "//a[contains(@href, '/admin/projects/new')]")
@@ -34,10 +39,19 @@ import ui.PageTransporter;
     @FindBy(xpath = "//a[contains(@href, '/admin/projects/import')]")
     WebElement linkImportProject;
 
+
+
+
     @FindBy(xpath = "//div[@id='main']/div")
     WebElement listOfProjects;
 
-    boolean elemFounded=false;
+    @FindBy(xpath = "//div[@id='main']//div[@class='project']")
+    WebElement listOfTemplate;
+
+
+
+
+    boolean sucesscreate=false;
 
     DeleteProjectPage deleteProjectPage;
 
@@ -127,6 +141,50 @@ import ui.PageTransporter;
 
     }
 
+
+    public void createTemplateThisProject(String projectName){
+
+
+        waitUntilListProjectIsShowed();
+        listOfProjects.findElement(By.xpath("//a[@id='create_template_"+projectName.toLowerCase()+"']")).click();
+        wait.until(ExpectedConditions.visibilityOf(templateNotice));
+
+    }
+
+    public boolean isTemplateCreated(String message){
+
+        String successMessage=templateNotice.getText();
+
+
+      if(successMessage.contains(message))  {
+          sucesscreate=true;
+      }
+       else{
+          sucesscreate=false;
+
+      }
+        return sucesscreate;
+    }
+
+
+    public boolean isTemplateInTheList(String projectName){
+
+
+        return isPresent(By.xpath("//div[@id='main']//div[@class='project']/div[@class='project-description']//a[text()='" + projectName +" "+"template"+ "']"));
+        //div[@id='main']//div[@class='project']/div[@class='project-description']//a[text()='Agile template']
+
+
+    }
+
+    public void goToTemplateLIst(){
+
+        topMenu.adminProjectLink.click();
+        topMenu.adminProjectTemplateOption.click();
+        wait.until(ExpectedConditions.visibilityOf(listOfTemplate));
+
+
+
+    }
 
    /*
     public MainPage deleteProject(String projectName){

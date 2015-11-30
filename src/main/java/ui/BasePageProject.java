@@ -48,13 +48,48 @@ public class BasePageProject extends BasePageObject {
     @FindBy(id="tab_project_admin_link")
     WebElement adminProjectLink;
     /*
-
+       Options of Menu Admin Project
      */
+
+
     @FindBy(linkText="Team members")
     WebElement userTeamLink;
 
     @FindBy(xpath="//a[contains(text(),'Delete')]")
     WebElement deleteProjectLink;
+
+   /*
+   User option
+    */
+     /*
+    @FindBy(xpath="//a[contains(@href, 'team/list')]]")
+    WebElement teamListLink;
+       */
+    @FindBy(id="select_permission_user_1_drop_link")
+    WebElement rollUserSelector;
+
+    @FindBy(xpath="//li[@id='select_permission_user_1_option_Project administrator']/text")
+    WebElement rollSelectedOption;
+
+    /*
+    top menu of specific project
+     */
+    @FindBy(xpath="//ul[@id='hd-nav']")
+    WebElement topMenu;
+
+    @FindBy(xpath="//ul[@id='hd-nav']//li//i")
+    WebElement tabEditIcon;
+
+    @FindBy(id="tab-name")
+    WebElement tabNameInput;
+
+    @FindBy(xpath="//input[@value='Save']")
+    WebElement tabSaveButton;
+
+    @FindBy(id="link-to-this-page")
+    WebElement updateUrlLink;
+
+
 
     MainPage main;
     DeleteProjectPage deletePage;
@@ -124,9 +159,55 @@ public class BasePageProject extends BasePageObject {
         wait.until(ExpectedConditions.visibilityOf(userTeamLink));
         userTeamLink.click();
         return isPresent(By.xpath("//table[@id='users']//tbody//td[@class='email'][text()='" + email + "']"));
+    }
+
+    public void changeRollMemberTo(){
+        adminProjectLink.click();
+        wait.until(ExpectedConditions.visibilityOf(userTeamLink));
+        userTeamLink.click();
+        rollUserSelector.click();
+        rollSelectedOption.click();
+
+        wait.until(ExpectedConditions.visibilityOf(topMenu));
+
+    }
+
+    public void exportProject(){
+        adminProjectLink.click();
+
+
+        wait.until(ExpectedConditions.visibilityOf(topMenu));
+
+    }
+
+
+    public void searchElementTopMenuAndClick(String title ) {
+
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//ul[@id='hd-nav']//li//a[@title='"+title+"']")));
+        driver.findElement(By.xpath("//ul[@id='hd-nav']//li//a[@title='" + title + "']")).click();
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//ul[@id='hd-nav']//li//a[@title='"+title+"']")));
 
 
     }
+
+    public Tab changeTabNameTo(String tabActualName,String tabNewName){
+
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//ul[@id='hd-nav']//li//a[@title='"+tabActualName+"']")));
+        tabEditIcon.click();
+        tabNameInput.clear();
+        tabNameInput.sendKeys(tabNewName);
+        tabSaveButton.click();
+        wait.until(ExpectedConditions.visibilityOf(updateUrlLink));
+        return new Tab();
+    }
+
+
+   public BottomBar getBottomBar(){
+
+       return new BottomBar();
+   }
+
+
 
 
 

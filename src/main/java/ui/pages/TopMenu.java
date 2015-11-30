@@ -21,6 +21,14 @@ public class TopMenu extends BasePageObject {
     @FindBy(xpath = "(//a[contains(@href, '/')])[5]")
     WebElement projectsLink;   // go to list of project
 
+    @FindBy(xpath = "//a[@id='admin-drop-down']/span")
+    WebElement adminProjectLink;
+
+    @FindBy(xpath = "//a[contains(@href, '/admin/templates')]")
+    WebElement adminProjectTemplateOption;
+
+
+
     public TopMenu(){
         PageFactory.initElements(driver, this);
         waitUntilPageObjectIsLoaded();
