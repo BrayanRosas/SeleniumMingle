@@ -18,17 +18,15 @@
         And I create the card "UserStory"  inside the value "Product Backlog" with estimation "2" and owner "Brayan Rosas" and cardType "Story"
       When the card "UserStory" is moved from "Product Backlog" to "In Dev" Value in the Tab "Card Wall"
       Then the card "UserStory" is inside the Value "In Dev"
-        #And  The card's status is "In dev"
-      Given delete the "Agile project" project from the main page
+      Given delete the "Agile" project from the main page
 
 
     Scenario: When I change the card's status e.g. to "In Dev" , it should move to Value "In dev"
-
       Given  I create a new Value "Product Backlog" on default Agile tab "Card Wall"
         And I create the card "UserStory"  inside the value "Product Backlog" with estimation "2" and owner "Brayan Rosas" and cardType "Story"
       When  I change the status of card "UserStory" to "In Dev" in the value "Product Backlog"
       Then the card "UserStory" is inside the Value "In Dev"
-      Given delete the "Agile project" project from the main page
+      Given delete the "Agile" project from the main page
 #
 #    Scenario: A Value that was hidden with cards inside,can be show again using the value's search
 #        And Go to the Tab "Card Wall"

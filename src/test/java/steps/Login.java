@@ -22,7 +22,6 @@ public class Login {
     LoginPage loginPage;//=new LoginPage();
     MainPage mainPage;
 
-
    @When("^I sing in to page with invalid credentials \"([^\\\"]*)\" and \"([^\\\"]*)\"$")
    public void singinInvalidCredentials(String user,String password){
        loginPage=new LoginPage();
@@ -41,7 +40,6 @@ public class Login {
     public void singInToMainPage(String user,String password){
 
         if(!CommonMethods.theUserIsLogIn()){
-
 
             singinValidCredentials(user,password);
 

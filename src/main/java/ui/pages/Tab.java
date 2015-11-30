@@ -17,8 +17,8 @@ import ui.BasePageObject;
  * To change this template use File | Settings | File Templates.
  */
 public class Tab extends BasePageObject {
-    String name;
 
+    boolean cardExist;
 
     //Web element to add and search Values ,Value is a col that contains cards
     @FindBy(css = "i.fa.fa-plus-circle")
@@ -33,9 +33,6 @@ public class Tab extends BasePageObject {
 
     @FindBy(xpath = "//input[@name='laneName']")
     WebElement createValueInput;
-
-
-
 
     // the  table head that contains all Value created
     @FindBy(xpath = "//table[@id='swimming-pool']/thead/tr")
@@ -52,15 +49,6 @@ public class Tab extends BasePageObject {
 
     @FindBy(xpath = "//div[@id='notice']")
     WebElement tabNotice;
-
-
-    boolean cardExist;
-
-
-
-
-    //table[@id='swimming-pool']/thead/tr/th[@data-lane-value='In Dev']
-    //table[@id='swimming-pool']/tbody/tr/td[@lane_value='In Dev']
 
     public Tab(){
         PageFactory.initElements(driver, this);

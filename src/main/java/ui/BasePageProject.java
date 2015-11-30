@@ -52,7 +52,6 @@ public class BasePageProject extends BasePageObject {
        Options of Menu Admin Project
      */
 
-
     @FindBy(linkText="Team members")
     WebElement userTeamLink;
 
@@ -62,10 +61,6 @@ public class BasePageProject extends BasePageObject {
    /*
    User option
     */
-     /*
-    @FindBy(xpath="//a[contains(@href, 'team/list')]]")
-    WebElement teamListLink;
-       */
     @FindBy(id="select_permission_user_1_drop_link")
     WebElement rollUserSelector;
 
@@ -89,8 +84,6 @@ public class BasePageProject extends BasePageObject {
 
     @FindBy(id="link-to-this-page")
     WebElement updateUrlLink;
-
-
 
     MainPage main;
     DeleteProjectPage deletePage;
@@ -119,7 +112,6 @@ public class BasePageProject extends BasePageObject {
     }
 
     public MainPage clickListProject(){
-
         return headerProject.mingleLogoClick();
 
     }
@@ -139,7 +131,6 @@ public class BasePageProject extends BasePageObject {
     }
 
     public boolean IsInProjectPage(String projectName){
-
         String currentUrl=PageTransporter.getInstance().getCurrentURL();
             if(currentUrl.contains(projectName))
                 isProjectPage=true;
@@ -149,9 +140,7 @@ public class BasePageProject extends BasePageObject {
 
 
     public BottomBar getSupportBar(){
-
         return  supportBar;
-
     }
 
     public boolean isUserInTeamList(String email){
@@ -168,14 +157,12 @@ public class BasePageProject extends BasePageObject {
         userTeamLink.click();
         rollUserSelector.click();
         rollSelectedOption.click();
-
         wait.until(ExpectedConditions.visibilityOf(topMenu));
 
     }
 
     public void exportProject(){
         adminProjectLink.click();
-
 
         wait.until(ExpectedConditions.visibilityOf(topMenu));
 

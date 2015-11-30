@@ -4,7 +4,6 @@
     Background:
       Given I sing in to page with the user "brayan_rosas" and password "Bgrf44360303bpm."
 
-
     Scenario Outline: Create a project with different template types
         And I navigate to New Project Page
       When I fill the "<Project Name>"

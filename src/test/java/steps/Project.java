@@ -29,37 +29,6 @@ public class Project {
     BasePageProject baseProject;
     Tab tabPage;
 
-
-    String timezone="label=(GMT-04:00) La Paz";
-    String dateFormat="label=dd/mm/yyyy";
-    String precision="3";
-    String imagePath="C:\\Users\\BrayanRosas\\Pictures\\ProjectImages\\TestImage.jpeg";
-
-      /*
-    @Given("^I navigate at Login Page$")
-    public void navigateLoginPage(){
-        loginPage= PageTransporter.getInstance().navigateToLoginPage();
-    }
-       */
-    /*
-    @When("^I sing in to main page with \"([^\\\"]*)\" and \"([^\\\"]*)\"$")
-    public void singinValidCredentials(String user,String password){
-
-        loginPage=new LoginPage();
-        mainPage=loginPage.loginSuccess(user,password);
-
-    }
-      */
-
-       /*
-    @And("^I sing in successfully at Login Page$")
-    public void singInLoginPage(){
-       // page.waitUntilPageObjectIsLoaded();
-        loginPage.setUserNameInput("brayan_rosas");
-        loginPage.setPasswordInput("Bgrf44360303bpm.");
-        loginPage.loginButtonClick();
-    }
-     */
     @And("^I navigate to New Project Page$")
     public void navigateProjectPage(){
         mainPage=PageTransporter.getInstance().navigateToMainPage();
@@ -120,7 +89,6 @@ public class Project {
 
     }
 
-
     @And("^delete the \"([^\\\"]*)\" project from the main page$")
     public void deleteProject(String projectName){
     mainPage.GoToDeleteProject(projectName);
@@ -144,9 +112,7 @@ public class Project {
 
        mainPage= baseProject.clickListProject();
 
-
     }
-
 
     @When ("^I create the project with same project name \"([^\\\"]*)\" and type project \"([^\\\"]*)\"$")
     public void createSameProject(String projectName,String projectType ){
@@ -158,14 +124,7 @@ public class Project {
         newProjectPage=newProjectPage.createSameProject();
 
     }
-      /*
-    @Then("^I am not in the Page project \"([^\\\"]*)\"$")
-     public void  iAmNotPageProject(String projectName){
 
-       boolean expected=false;
-       Assert.assertEquals( baseProject.IsInProjectPage(projectName),expected);
-    }
-       */
     @And("^An Error message \"([^\\\"]*)\" should be displayed$")
      public void  errorCreateProjectIsShowed(String textError){
 
@@ -176,7 +135,6 @@ public class Project {
 
     @And("^I invite a new user to the current project with the email \"([^\\\"]*)\"$")
     public void  inviteUser(String email){
-
       baseProject.inviteUser(email);
 
       }
@@ -197,7 +155,6 @@ public class Project {
 
     @And ("^I edit the Tab name \"([^\\\"]*)\" to \"([^\\\"]*)\"$")
      public void editTabTo(String actualName,String newName) {
-
          baseProject.searchElementTopMenuAndClick(actualName);
          tabPage=baseProject.changeTabNameTo(actualName,newName);
 
@@ -205,10 +162,7 @@ public class Project {
 
     @And ("^I create a new Value \"([^\\\"]*)\" on tab \"([^\\\"]*)\"$")
     public void createNewValue(String newValueName,String tabName) {
-
-
         tabPage.createNewValue(newValueName);
-
 
     }
 
@@ -218,30 +172,20 @@ public class Project {
         baseProject.searchElementTopMenuAndClick(tabName);
         tabPage=new Tab();
         tabPage.createNewValue(newValueName);
-
-
     }
 
     @And ("^I create the card \"([^\\\"]*)\"  inside the value \"([^\\\"]*)\" with estimation \"([^\\\"]*)\" and owner \"([^\\\"]*)\" and cardType \"([^\\\"]*)\"$")
     public void createNewCardInto(String cardName,String valueName,String estimation,String owner,String cardType) {
 
-
         baseProject.getBottomBar().createNewCard(cardName,valueName,estimation,owner,cardType);
 
     }
 
-
-
-
-
-
     @And ("^I create a template of the project \"([^\\\"]*)\"$")
     public void createTemplateOf(String projectName) {
 
-
        mainPage=baseProject.clickListProject();
        mainPage.createTemplateThisProject(projectName);
-
 
     }
 
@@ -251,7 +195,6 @@ public class Project {
 
         Assert.assertEquals( mainPage.isTemplateCreated(message),true);
 
-
     }
 
     @Then ("^The template of project \"([^\\\"]*)\" is the template project list$")
@@ -259,14 +202,12 @@ public class Project {
 
         mainPage.goToTemplateLIst();
         Assert.assertEquals( mainPage.isTemplateInTheList(projectName),true);
-
     }
 
     @And ("^An message \"([^\\\"]*)\" is displayed$")
     public void isCardCreated(String message) {
 
         Assert.assertEquals(tabPage.isCardCreated(message),true);
-
     }
 
     @And ("^the card \"([^\\\"]*)\" is inside the Value \"([^\\\"]*)\"$")
@@ -282,18 +223,15 @@ public class Project {
 
     }
 
-
     @When ("^the card \"([^\\\"]*)\" is moved from \"([^\\\"]*)\" to \"([^\\\"]*)\" Value in the Tab \"([^\\\"]*)\"$")
     public void moveCardToDragAndDrop(String cardName,String origin,String destination,String tabName) {
            baseProject.searchElementTopMenuAndClick(tabName);
            tabPage=new Tab();
            tabPage.moveCardTo(cardName,origin,destination);
-
     }
 
     @When ("^I change the status of card \"([^\\\"]*)\" to \"([^\\\"]*)\" in the value \"([^\\\"]*)\"$")
     public void changeCardStatus(String cardName,String status,String value) {
-
 
     }
 

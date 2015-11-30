@@ -13,9 +13,6 @@ import java.util.concurrent.TimeUnit;
  * To change this template use File | Settings | File Templates.
  */
 
-/*
- *
- */
 public class DriverManagement
 {
    private static DriverManagement instance = null;
@@ -28,9 +25,6 @@ public class DriverManagement
         initializeDriver();
     }
 
-    /**
-     * Select a browser
-     */
     private void initializeDriver()
     {
         driver = new FirefoxDriver();

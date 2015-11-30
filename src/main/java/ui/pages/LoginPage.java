@@ -41,28 +41,23 @@ public class LoginPage extends BasePageObject{
         wait.until(ExpectedConditions.visibilityOf(loginBtn));
     }
 
-
     public void setUserNameInput(String userName) {
         userNameInput.clear();
         userNameInput.sendKeys(userName);
-
     }
 
     public void setPasswordInput(String password) {
         passwordInput.clear();
         passwordInput.sendKeys(password);
-
     }
 
     public void loginButtonClick() {
         loginBtn.click();
-
     }
 
     public String getErrorLogin(){
 
         return errorExplanationText.getText();
-
     }
 
 
@@ -71,8 +66,6 @@ public class LoginPage extends BasePageObject{
          setPasswordInput(password);
          loginButtonClick();
          return new  MainPage();
-
-
     }
 
     public LoginPage loginFailed(String userName, String password) {
@@ -80,10 +73,7 @@ public class LoginPage extends BasePageObject{
         setPasswordInput(password);
         loginButtonClick() ;
         return this;
-
     }
-
-
 
 }
 

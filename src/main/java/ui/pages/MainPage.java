@@ -20,8 +20,9 @@ import ui.PageTransporter;
    public class MainPage extends BasePageObject {
 
     TopMenu topMenu=new TopMenu();
-    //Header header;
     Header header=new Header();
+    boolean sucesscreate=false;
+    DeleteProjectPage deleteProjectPage;
 
 
     @FindBy(id="notice")
@@ -39,55 +40,16 @@ import ui.PageTransporter;
     @FindBy(xpath = "//a[contains(@href, '/admin/projects/import')]")
     WebElement linkImportProject;
 
-
-
-
     @FindBy(xpath = "//div[@id='main']/div")
     WebElement listOfProjects;
 
     @FindBy(xpath = "//div[@id='main']//div[@class='project']")
     WebElement listOfTemplate;
 
-
-
-
-    boolean sucesscreate=false;
-
-    DeleteProjectPage deleteProjectPage;
-
-
-   //WebElement logOutButton=header.getSingOut();
-
-    /*@FindBy(xpath="//a[contains(@href,'/profile/logout')]")
-    WebElement logOutButton;*/
-    /*
-    //@FindBy(linkText = "Projects")
-    @FindBy(xpath = "//div[@id='header-pills']/ul/li[2]")
-    WebElement projectsLink;   // go to list of project
-      */
-
-    //@FindBy(xpath="//a[contains(@href,'/profile/logout')]")
-    //@FindBy(id="logout"
-    //@FindBy(css="#logout")
-    //@FindBy(linkText = "Sign out")
-
-   // @FindBy(xpath="//a[contains(@href,'/profile/logout')]")
-    //WebElement logOutButton;
-
-    /*
-    @FindBy(id="title")
-    WebElement titlePage;
-      */
-   // @FindBy(id="project-list")
-   // WebElement projectListLink;
-
-    //WebElement logOutButton=header.getSingOut();
-
     public MainPage(){
 
       PageFactory.initElements(driver, this);
        waitUntilPageObjectIsLoaded();
-
     }
 
     @Override
@@ -135,16 +97,12 @@ import ui.PageTransporter;
     }
 
     public Boolean verifyIfExistProjectList(String projectName){
-
         return isPresent(By.xpath("//div[@id='main']/div//a[contains(@href, '/projects/"+projectName.toLowerCase()+"')]"));
-
 
     }
 
 
     public void createTemplateThisProject(String projectName){
-
-
         waitUntilListProjectIsShowed();
         listOfProjects.findElement(By.xpath("//a[@id='create_template_"+projectName.toLowerCase()+"']")).click();
         wait.until(ExpectedConditions.visibilityOf(templateNotice));
@@ -154,7 +112,6 @@ import ui.PageTransporter;
     public boolean isTemplateCreated(String message){
 
         String successMessage=templateNotice.getText();
-
 
       if(successMessage.contains(message))  {
           sucesscreate=true;
@@ -169,10 +126,7 @@ import ui.PageTransporter;
 
     public boolean isTemplateInTheList(String projectName){
 
-
         return isPresent(By.xpath("//div[@id='main']//div[@class='project']/div[@class='project-description']//a[text()='" + projectName +" "+"template"+ "']"));
-        //div[@id='main']//div[@class='project']/div[@class='project-description']//a[text()='Agile template']
-
 
     }
 
