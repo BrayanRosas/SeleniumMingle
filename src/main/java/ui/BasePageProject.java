@@ -81,7 +81,7 @@ public class BasePageProject extends BasePageObject {
     @FindBy(id="tab-name")
     WebElement tabNameInput;
 
-    @FindBy(xpath="//input[@value='Save']")
+    @FindBy(linkText="Save")
     WebElement tabSaveButton;
 
     @FindBy(id="link-to-this-page")
@@ -220,10 +220,8 @@ public class BasePageProject extends BasePageObject {
     }
 
    public void tabSaveClick(){
+       wait.until(ExpectedConditions.visibilityOf(tabSaveButton));
      tabSaveButton.click();
-
-
-
    }
 
 

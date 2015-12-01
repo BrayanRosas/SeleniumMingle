@@ -1,5 +1,6 @@
 package steps;
 
+import cucumber.api.java.After;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
@@ -28,6 +29,7 @@ public class Project {
     NewProjectPage newProjectPage;
     BasePageProject baseProject;
     Tab tabPage;
+    String nameOfProject;
 
     @And("^I navigate to New Project Page$")
     public void navigateProjectPage(){
@@ -90,7 +92,7 @@ public class Project {
     }
 
     @And("^delete the \"([^\\\"]*)\" project from the main page$")
-    public void deleteProject(String projectName){
+    public void deleteProjectSpecific(String projectName){
     mainPage.GoToDeleteProject(projectName);
 
     }
@@ -104,6 +106,7 @@ public class Project {
         newProjectPage.setProjectName(projectName);
         newProjectPage.chooseProjectTemplate(projectType);
         baseProject=newProjectPage.createProject();
+        nameOfProject=projectName;
 
     }
 
@@ -233,6 +236,7 @@ public class Project {
     @When ("^I change the status of card \"([^\\\"]*)\" to \"([^\\\"]*)\" in the value \"([^\\\"]*)\"$")
     public void changeCardStatus(String cardName,String status,String value) {
 
+               tabPage.changeCardStatus(cardName,status,value);
     }
 
 
@@ -240,8 +244,46 @@ public class Project {
     public void goToTab(String valueName,String tabName) {
         tabPage=  baseProject.goToTab(tabName);
         tabPage.hideTab(tabName,valueName);
+        baseProject.tabSaveClick();
 
     }
+
+    @Then("The Value \"([^\\\"]*)\" is not in the Tab \"([^\\\"]*)\"$")
+    public void theValueIsInTheTab(String valueName,String tabName) {
+
+        Assert.assertEquals(tabPage.isValueInTab(valueName,tabName),false);
+
+    }
+
+    @Then("the Value \"([^\\\"]*)\" is now in the Tab \"([^\\\"]*)\"$")
+    public void theValueIsInTheTabNow(String valueName,String tabName) {
+
+        Assert.assertEquals(tabPage.isValueInTab(valueName,tabName),true);
+
+    }
+
+
+    @When ("^I search the Value \"([^\\\"]*)\"$")
+    public void searchValue(String valueName) {
+
+          tabPage.searchValue(valueName);
+    }
+
+
+    @After("@Cards")
+    public void deleteProject(){
+
+        mainPage.GoToDeleteProject(nameOfProject);
+
+    }
+
+    @After("@Project")
+    public void deleteProjectForProject(){
+        mainPage.GoToDeleteProject(nameOfProject);
+
+    }
+
+
 
 
 

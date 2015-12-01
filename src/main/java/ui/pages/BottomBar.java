@@ -87,13 +87,7 @@ public class BottomBar extends BasePageObject {
          cardPage.cardEstimateInput.click();
          cardPage.cardEstimateInput.sendKeys(owner);
          driver.findElement(By.cssSelector("input.dropdown-options-filter")).sendKeys(Keys.ENTER);
-
          cardPage.addCardButton.click();
-
-
-
-
-
 
     }
 

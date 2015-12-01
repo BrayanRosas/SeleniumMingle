@@ -20,6 +20,9 @@ import ui.BasePageProject;
 public class Tab extends BasePageObject {
 
     boolean cardExist;
+    Card card;
+
+    Actions act=new Actions(driver);
 
     //Web element to add and search Values ,Value is a col that contains cards
     @FindBy(css = "i.fa.fa-plus-circle")
@@ -34,6 +37,10 @@ public class Tab extends BasePageObject {
 
     @FindBy(xpath = "//input[@name='laneName']")
     WebElement createValueInput;
+
+
+
+
 
     // the  table head that contains all Value created
     @FindBy(xpath = "//table[@id='swimming-pool']/thead/tr")
@@ -53,6 +60,7 @@ public class Tab extends BasePageObject {
 
     @FindBy(xpath = "//table[@id='swimming-pool']/thead/tr//th[2]/span/span")
     WebElement hideValue;
+
 
 
     public Tab(){
@@ -126,7 +134,6 @@ public class Tab extends BasePageObject {
 
     public void moveCardTo(String nameCard,String valueOrigin,String valueDestination ) {
         wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//table[@id='swimming-pool']/tbody/tr/td[@lane_value='"+valueOrigin+"']/div/div/div[@class='card-name'][contains(text(),'"+nameCard+"')]/parent::div")));
-
         WebElement origin=driver.findElement(By.xpath("//table[@id='swimming-pool']/tbody/tr/td[@lane_value='"+valueOrigin+"']/div/div/div[@class='card-name'][contains(text(),'"+nameCard+"')]/parent::div")) ;
         WebElement destination=driver.findElement(By.xpath("//table[@id='swimming-pool']/tbody/tr/td[@lane_value='" + valueDestination + "']"));
         Actions act=new Actions(driver);
@@ -136,23 +143,40 @@ public class Tab extends BasePageObject {
 
     public void changeCardStatus(String cardName,String status,String valueName){
 
-        WebElement card=driver.findElement(By.xpath("//table[@id='swimming-pool']/tbody/tr/td[@lane_value='"+valueName+"']/div/div/div[@class='card-name'][contains(text(),'"+cardName+"')]/parent::div")) ;
-         card.click();
-
+        WebElement cardElement=driver.findElement(By.xpath("//table[@id='swimming-pool']/tbody/tr/td[@lane_value='"+valueName+"']/div/div/div[@class='card-name'][contains(text(),'"+cardName+"')]/parent::div")) ;
+         cardElement.click();
+         card =new Card();
+         card.setStatus(status);
 
     }
 
     public void hideTab(String tabName,String valueName){
 
         wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//ul[@id='hd-nav']//li//a[@title='"+tabName+"']")));
-        Actions act=new Actions(driver);
-        WebElement headerTab=driver.findElement(By.xpath("//table[@id='swimming-pool']/thead/tr/th[@data-lane-value='"+valueName+"']"));
+
+        WebElement headerTab=driver.findElement(By.xpath("//table[@id='swimming-pool']/thead/tr/th[@data-lane-value='" + valueName + "']"));
         act.moveToElement(headerTab).build().perform();
         wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//table[@id='swimming-pool']/thead/tr/th[@data-lane-value='"+valueName+"']")));
         hideValue.click();
 
-
     }
+
+     public boolean isValueInTab(String valueName,String tabName){
+
+        return isPresent(By.xpath("//table[@id='swimming-pool']/thead/tr/th[@data-lane-value='"+valueName+"']"));
+
+
+     }
+
+      public void searchValue(String valueName){
+
+          plusValueSelector.click();
+         driver.findElement(By.xpath("//form[@class='filter-values']/ul/li/a[text()='"+valueName+"']")).click();
+         //filterValueInput.sendKeys(valueName);
+         //driver.findElement(By.xpath("xpath=(//input[@name='filter'])[2]")).sendKeys(Keys.ENTER);
+
+      }
+
 
 
 }

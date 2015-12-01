@@ -15,6 +15,10 @@ import ui.BasePageObject;
  */
 public class Card extends BasePageObject {
 
+    @FindBy(xpath= "//div[@id='card_show_lightbox_content']/div/form/div[3]/span")
+    WebElement closeCardButton;
+
+
     @FindBy(id= "card_type_name")
     WebElement cardType;
 
@@ -28,6 +32,11 @@ public class Card extends BasePageObject {
     @FindBy(xpath= "//span[@id='userpropertydefinition_1683")
     WebElement cardEstimateSelector;
       */
+
+    @FindBy(xpath= "//div[@id='card-properties']")
+    WebElement cardProperties;
+
+
     @FindBy(xpath= "//div[@id='card-properties']/div/span[@title='Estimate']/following-sibling::span")
     WebElement cardEstimateSelector;
 
@@ -61,8 +70,14 @@ public class Card extends BasePageObject {
 
     @Override
     public void waitUntilPageObjectIsLoaded() {
-        wait.until(ExpectedConditions.visibilityOf(cardName));
+        wait.until(ExpectedConditions.visibilityOf(cardProperties));
     }
 
+
+    public void setStatus(String newStatus){
+         cardStatusSelector.click();
+         cardEstimateInput.sendKeys(newStatus);
+         closeCardButton.click();
+    }
 
 }

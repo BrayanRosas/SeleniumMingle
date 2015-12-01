@@ -14,8 +14,8 @@ public class ProjectHooks {
     /**
      * Delete projects created
      */
-    @After(value = "@Users", order = 999)
-    public void afterUsersScenarios() {
+    @After(value = "@Card", order = 999)
+    public void afterCardScenarios() {
 
 
     }
