@@ -8,6 +8,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import ui.BasePageObject;
+import ui.BasePageProject;
 
 /**
  * Created with IntelliJ IDEA.
@@ -50,6 +51,10 @@ public class Tab extends BasePageObject {
     @FindBy(xpath = "//div[@id='notice']")
     WebElement tabNotice;
 
+    @FindBy(xpath = "//table[@id='swimming-pool']/thead/tr//th[2]/span/span")
+    WebElement hideValue;
+
+
     public Tab(){
         PageFactory.initElements(driver, this);
         waitUntilPageObjectIsLoaded();
@@ -66,6 +71,9 @@ public class Tab extends BasePageObject {
           createValueInput.sendKeys(nameNewValue);
           driver.findElement(By.xpath("//input[@name='laneName']")).sendKeys(Keys.ENTER);
           wait.until(ExpectedConditions.visibilityOf(plusValueSelector));
+          BasePageProject basePageProject=new BasePageProject();
+          basePageProject.tabSaveClick();
+
           if(!isPresent(By.xpath("//table[@id='swimming-pool']/tbody/tr/td[@lane_value='"+nameNewValue+"']"))){
 
               plusValueSelector.click();
@@ -84,7 +92,6 @@ public class Tab extends BasePageObject {
         addCardLink.click();
 
     }
-
 
     public boolean isCardCreated(String message){
 
@@ -121,7 +128,7 @@ public class Tab extends BasePageObject {
         wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//table[@id='swimming-pool']/tbody/tr/td[@lane_value='"+valueOrigin+"']/div/div/div[@class='card-name'][contains(text(),'"+nameCard+"')]/parent::div")));
 
         WebElement origin=driver.findElement(By.xpath("//table[@id='swimming-pool']/tbody/tr/td[@lane_value='"+valueOrigin+"']/div/div/div[@class='card-name'][contains(text(),'"+nameCard+"')]/parent::div")) ;
-        WebElement destination=driver.findElement(By.xpath("//table[@id='swimming-pool']/tbody/tr/td[@lane_value='"+valueDestination+"']"));
+        WebElement destination=driver.findElement(By.xpath("//table[@id='swimming-pool']/tbody/tr/td[@lane_value='" + valueDestination + "']"));
         Actions act=new Actions(driver);
         act.moveToElement(origin).clickAndHold(origin).moveToElement(destination).release().build().perform();
 
@@ -131,6 +138,18 @@ public class Tab extends BasePageObject {
 
         WebElement card=driver.findElement(By.xpath("//table[@id='swimming-pool']/tbody/tr/td[@lane_value='"+valueName+"']/div/div/div[@class='card-name'][contains(text(),'"+cardName+"')]/parent::div")) ;
          card.click();
+
+
+    }
+
+    public void hideTab(String tabName,String valueName){
+
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//ul[@id='hd-nav']//li//a[@title='"+tabName+"']")));
+        Actions act=new Actions(driver);
+        WebElement headerTab=driver.findElement(By.xpath("//table[@id='swimming-pool']/thead/tr/th[@data-lane-value='"+valueName+"']"));
+        act.moveToElement(headerTab).build().perform();
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//table[@id='swimming-pool']/thead/tr/th[@data-lane-value='"+valueName+"']")));
+        hideValue.click();
 
 
     }

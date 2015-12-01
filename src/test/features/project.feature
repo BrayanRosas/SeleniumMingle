@@ -43,6 +43,7 @@
        Then the message "Template was successfully created." should be showed
        When delete the "Project1" project from the main page
        Then The template of project "Project1" is the template project list
+       Given delete the "Agile" project from the main page
 
 
 

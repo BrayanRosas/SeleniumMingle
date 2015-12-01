@@ -236,6 +236,15 @@ public class Project {
     }
 
 
+    @When ("^hide the value \"([^\\\"]*)\" of Tab \"([^\\\"]*)\"$")
+    public void goToTab(String valueName,String tabName) {
+        tabPage=  baseProject.goToTab(tabName);
+        tabPage.hideTab(tabName,valueName);
+
+    }
+
+
+
 
 
 

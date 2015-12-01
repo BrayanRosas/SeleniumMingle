@@ -1,6 +1,7 @@
 package ui;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
@@ -19,6 +20,7 @@ public class BasePageProject extends BasePageObject {
  Header headerProject=new HeaderProject();
  BottomBar supportBar=new BottomBar();
  boolean isCardList;
+ Tab tabPage;
 
     @FindBy(xpath="//input[@id='q']")
     WebElement searchInput;
@@ -174,7 +176,14 @@ public class BasePageProject extends BasePageObject {
         wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//ul[@id='hd-nav']//li//a[@title='"+title+"']")));
         driver.findElement(By.xpath("//ul[@id='hd-nav']//li//a[@title='" + title + "']")).click();
         wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//ul[@id='hd-nav']//li//a[@title='"+title+"']")));
+    }
 
+    public Tab goToTab(String tabName){
+
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//ul[@id='hd-nav']//li//a[@title='"+tabName+"']")));
+        driver.findElement(By.xpath("//ul[@id='hd-nav']//li//a[@title='" + tabName+ "']")).click();
+
+        return new Tab();
 
     }
 
@@ -190,6 +199,8 @@ public class BasePageProject extends BasePageObject {
     }
 
 
+
+
    public BottomBar getBottomBar(){
 
        return new BottomBar();
@@ -198,7 +209,7 @@ public class BasePageProject extends BasePageObject {
     public boolean isCardInListCard(String cardName){
 
         allProjectLink.click();
-        if(isPresent(By.xpath("//table[@id='cards']/tbody/tr/td[@class='card-name']/a[contains(text(),'"+cardName+"')]"))){
+        if(isPresent(By.xpath("//table[@id='cards']/tbody/tr/td[@class='card-name']/a[contains(text(),'" + cardName + "')]"))){
             isCardList=true;
         }
         else{
@@ -208,6 +219,12 @@ public class BasePageProject extends BasePageObject {
 
     }
 
+   public void tabSaveClick(){
+     tabSaveButton.click();
+
+
+
+   }
 
 
 
